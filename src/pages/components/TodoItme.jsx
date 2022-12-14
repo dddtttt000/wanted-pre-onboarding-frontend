@@ -1,25 +1,31 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
 
-export default function TodoItme({ el, deleteTodo, updateTodo }) {
+export default function TodoItme({ el, deleteTodo, updateTodo, getList }) {
   const [checkdeItem, setCheckedItem] = useState("")
   const [isEditMode, setIsEditMode] = useState(false)
   const [checked, setChecked] = useState(false)
-  const [chagedeInput, setChangedInput] = useState("")
+  const [chagedeInput, setChangedInput] = useState(el.todo)
   const [content, setContet] = useState("")
   const [selectedId, setSelectedId] = useState(false)
 
+  console.log("chagedeInput", chagedeInput)
   const handleEditMode = (e) => {
-    setSelectedId(e.target.id)
+    const id = Number(e.target.id)
+    const findeItem = getList.find((el) => el.id === id)
+    const isCompleted = findeItem.isCompleted
+    setSelectedId(id)
     if (isEditMode) {
       setIsEditMode(false)
+      updateTodo(id, isCompleted, chagedeInput)
     } else {
       setIsEditMode(true)
     }
   }
   const handleChangeCheckbox = (e) => {
     const id = Number(e.target.id)
+    const findeItem = getList.find((el) => el.id === id)
     const isCompleted = e.target.checked
-    updateTodo(id, isCompleted)
+    updateTodo(id, isCompleted, findeItem.todo)
   }
   const handleChagedeInput = (e) => {
     setChangedInput(e.target.value)
@@ -38,8 +44,19 @@ export default function TodoItme({ el, deleteTodo, updateTodo }) {
           // setChecked(checked ? false : true)
         }}
       />
-      {isEditMode && el.id === selectedId ? (
-        <input ref={editInputRef} type="text" />
+      {isEditMode ? (
+        el.id === selectedId ? (
+          <input
+            ref={editInputRef}
+            onChange={(e) => {
+              handleChagedeInput(e)
+            }}
+            value={chagedeInput}
+            type="text"
+          />
+        ) : (
+          el.todo
+        )
       ) : (
         el.todo
       )}
@@ -53,7 +70,7 @@ export default function TodoItme({ el, deleteTodo, updateTodo }) {
         x
       </button>
       <span id={el.id} onClick={(e) => handleEditMode(e)}>
-        {isEditMode ? (el.id === selectedId ? "edit" : "complete") : "edit"}
+        {isEditMode ? (el.id === selectedId ? "complete" : "edit") : "edit"}
       </span>
     </div>
   )

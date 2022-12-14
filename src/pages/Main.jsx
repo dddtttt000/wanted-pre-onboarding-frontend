@@ -60,15 +60,12 @@ export default function Main() {
     }
   }
 
-  const updateTodo = async (id, isCompleted) => {
-    const findeItem = getList.find((el) => el.id === id)
-    console.log(findeItem.todo)
-
+  const updateTodo = async (id, isCompleted, todo) => {
     try {
       const result = await axios.put(
         `https://pre-onboarding-selection-task.shop/todos/${id}`,
         {
-          todo: findeItem.todo,
+          todo: todo,
           isCompleted: isCompleted,
         },
         {
@@ -122,7 +119,12 @@ export default function Main() {
       {getList.map((el) => {
         return (
           <React.Fragment key={el.id}>
-            <TodoItme el={el} deleteTodo={deleteTodo} updateTodo={updateTodo} />
+            <TodoItme
+              el={el}
+              getList={getList}
+              deleteTodo={deleteTodo}
+              updateTodo={updateTodo}
+            />
           </React.Fragment>
         )
       })}
