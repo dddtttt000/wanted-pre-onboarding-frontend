@@ -54,7 +54,6 @@ export default function Main() {
       if (result) {
         setItme(result.data)
         setTodoItmes([...getList, result.data])
-        // getTodoList()
       }
     } catch (e) {
       console.log("err", e.response.data.message)
@@ -102,9 +101,12 @@ export default function Main() {
         }
       )
 
-      if (result.status === 204) {
-        getTodoList()
+      if (result.status) {
+        if (getList.length === 1) {
+          setGetList([])
+        }
       }
+      getTodoList()
     } catch (e) {
       console.log("err", e.response.data.message)
     }
