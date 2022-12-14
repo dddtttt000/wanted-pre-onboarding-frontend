@@ -4,7 +4,7 @@ import { AppContext } from "../data/AppContext"
 import { useNavigate } from "react-router-dom"
 
 export default function Signup() {
-  const { setUsername, setIsLoggedIn, setToken } = useContext(AppContext)
+  const { setIsLoggedIn, setToken } = useContext(AppContext)
   const emailInput = useRef(null)
   const pwInput = useRef(null)
   const [email, setEmail] = useState("")
