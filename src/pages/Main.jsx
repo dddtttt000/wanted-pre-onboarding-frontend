@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
 import { AppContext } from "../data/AppContext"
 import axios from "axios"
+import TodoItme from "./components/TodoItme"
 
 export default function Main() {
   const { token } = useContext(AppContext)
@@ -8,12 +9,6 @@ export default function Main() {
   const [todoItmes, setTodoItmes] = useState([]) // get 요청을 받아서 담는 곳
   const [item, setItme] = useState([]) // post 요청으로 만들어진 아이템
   const [todoInput, setTodoInput] = useState("")
-  const [checkdeItem, setCheckedItem] = useState("")
-  const [isEditMode, setIsEditMode] = useState(false)
-  const [checked, setChecked] = useState(false)
-  const [chagedeInput, setChangedInput] = useState("")
-  const [content, setContet] = useState("")
-  const [selectedId, setSelectedId] = useState(false)
 
   useEffect(() => {
     getTodoList()
@@ -117,30 +112,9 @@ export default function Main() {
     }
   }
 
-  const handleChangeCheckbox = (e) => {
-    const id = Number(e.target.id)
-    const isCompleted = e.target.checked
-    updateTodo(id, isCompleted)
-  }
-
-  const handleEditMode = (e) => {
-    setSelectedId(e.target.id)
-    if (isEditMode) {
-      setIsEditMode(false)
-    } else {
-      setIsEditMode(true)
-    }
-  }
-
-  const handleChagedeInput = (e) => {
-    setChangedInput(e.target.value)
-  }
-
   const createTodoInput = (e) => {
     setTodoInput(e.currentTarget.value)
   }
-
-  const editInputRef = useRef(null)
 
   return (
     <>
@@ -148,38 +122,7 @@ export default function Main() {
       {getList.map((el) => {
         return (
           <React.Fragment key={el.id}>
-            <div key={el.id}>
-              <input
-                id={el.id}
-                type="checkbox"
-                checked={el.isCompleted}
-                onChange={(e) => {
-                  handleChangeCheckbox(e)
-                  // setChecked(checked ? false : true)
-                }}
-              />
-              {isEditMode && el.id === selectedId ? (
-                <input ref={editInputRef} type="text" />
-              ) : (
-                el.todo
-              )}
-              {el.isCompleted ? "Done" : "In progress"}
-              <button
-                id={el.id}
-                onClick={(e) => {
-                  deleteTodo(e)
-                }}
-              >
-                x
-              </button>
-              <span id={el.id} onClick={(e) => handleEditMode(e)}>
-                {isEditMode
-                  ? el.id === selectedId
-                    ? "edit"
-                    : "complete"
-                  : "edit"}
-              </span>
-            </div>
+            <TodoItme el={el} deleteTodo={deleteTodo} updateTodo={updateTodo} />
           </React.Fragment>
         )
       })}
