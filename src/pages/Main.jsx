@@ -118,7 +118,8 @@ export default function Main() {
     <>
       <div>
         <Container>
-          <p>LIST</p>
+          <Title>💡 LIST</Title>
+          {!getList.length && "🪑 Nothing"}
           {getList.map((el) => {
             return (
               <React.Fragment key={el.id}>
@@ -134,7 +135,7 @@ export default function Main() {
           <div>
             <AddBox>
               <form action="submit" onSubmit={(e) => createTodo(e)}>
-                <input
+                <AddInput
                   value={todoInput}
                   type="text"
                   onChange={(e) => createTodoInput(e)}
@@ -155,4 +156,13 @@ const Container = styled.div`
 `
 const AddBox = styled.div`
   margin: 20px;
+`
+const Title = styled.div`
+  font-size: 22px;
+  font-weight: bold;
+  margin: 10px auto;
+`
+
+const AddInput = styled.input`
+  width: 80%;
 `

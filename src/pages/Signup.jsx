@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from "react"
 import axios from "axios"
 import { AppContext } from "../data/AppContext"
 import { useNavigate } from "react-router-dom"
+import styled from "styled-components"
 
 export default function Signup() {
   const { setIsLoggedIn, setToken } = useContext(AppContext)
@@ -13,6 +14,7 @@ export default function Signup() {
   const [errMsg, setErrMsg] = useState("")
   const [emailError, setEmailError] = useState("")
   const [pwError, setPwError] = useState("")
+  const [pwCheckError, setPwCheckError] = useState("")
   const navigate = useNavigate()
 
   const checkEnter = (e) => {
@@ -44,11 +46,11 @@ export default function Signup() {
     }
   }
 
-  const passwordCheckValidation = (e) => {
-    if (e.target.value.length === password) {
-      setPasswordCheck("")
+  const passwordCheckValidation = () => {
+    if (passwordCheck === password) {
+      setPwCheckError("")
     } else {
-      setPasswordCheck("비밀번호가 일치하지 않습니다.")
+      setPwCheckError("비밀번호가 일치하지 않습니다.")
     }
   }
 
@@ -81,49 +83,88 @@ export default function Signup() {
   }
   return (
     <>
-      <div>Signup</div>
-      <form action="submit" onSubmit={(e) => handleSubmit(e)}>
-        <div className="">
-          <label htmlFor="">email</label>
-          <input
-            type="text"
-            placeholder="email"
-            ref={emailInput}
-            onBlur={(e) => emailValidation(e)}
-            onChange={(e) => setEmail(e.currentTarget.value)}
-            onKeyUp={checkEnter}
-          />
-        </div>
-        <div className="">
-          <label htmlFor="">password</label>
-          <input
-            type="password"
-            placeholder="password"
-            ref={pwInput}
-            onBlur={(e) => passwordValidation(e)}
-            onChange={(e) => setPassword(e.currentTarget.value)}
-            onKeyUp={checkEnter}
-          />
-        </div>
-        <div className="">
-          <label htmlFor="">password check</label>
-          <input
-            type="password"
-            placeholder="password"
-            // ref={pwInput}
-            onBlur={(e) => passwordCheckValidation(e)}
-            onChange={(e) => setPassword(e.currentTarget.value)}
-            onKeyUp={checkEnter}
-          />
-        </div>
-        {errMsg}
-        {emailError}
-        {pwError}
-        {passwordCheck}
-        <div>
-          <button onClick={(e) => handleSubmit(e)}>확인</button>
-        </div>
-      </form>
+      <Container>
+        <Title>Signup</Title>
+        <form action="submit" onSubmit={(e) => handleSubmit(e)}>
+          <Line className="">
+            <Label htmlFor="">email</Label>
+            <Input
+              type="text"
+              placeholder="email"
+              ref={emailInput}
+              onBlur={(e) => emailValidation(e)}
+              onChange={(e) => setEmail(e.currentTarget.value)}
+              onKeyUp={checkEnter}
+            />
+          </Line>
+          <Line className="">
+            <Label htmlFor="">password</Label>
+            <Input
+              type="password"
+              placeholder="password"
+              ref={pwInput}
+              onBlur={(e) => passwordValidation(e)}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+              onKeyUp={checkEnter}
+            />
+          </Line>
+          <Line className="">
+            <Label htmlFor="">password check</Label>
+            <Input
+              type="password"
+              placeholder="password"
+              // ref={pwInput}
+              onBlur={(e) => passwordCheckValidation(e)}
+              onChange={(e) => setPasswordCheck(e.currentTarget.value)}
+              onKeyUp={checkEnter}
+            />
+          </Line>
+          <Warning>
+            {errMsg}
+            {emailError}
+            {pwError}
+            {pwCheckError}
+          </Warning>
+          <div>
+            <Button onClick={(e) => handleSubmit(e)}>확인</Button>
+          </div>
+        </form>
+      </Container>
     </>
   )
 }
+
+const Container = styled.div`
+  width: 200px;
+  margin: 10px auto;
+`
+const Title = styled.div`
+  font-size: 22px;
+  font-weight: bold;
+  margin: 10px auto;
+`
+const Label = styled.label`
+  font-size: 14px;
+  margin-right: 10px;
+`
+
+const Line = styled.div`
+  margin-bottom: 10px;
+`
+const Input = styled.input`
+  font-size: 14px;
+  width: 100%;
+`
+const Button = styled.button`
+  font-size: 12px;
+  color: palevioletred;
+  margin-left: 10px;
+  margin-right: 10px;
+  border: 1px solid palevioletred;
+  border-radius: 3px;
+  cursor: pointer;
+`
+const Warning = styled.p`
+  font-size: 12px;
+  color: #dd0c52;
+`

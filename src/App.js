@@ -21,7 +21,7 @@ function App() {
           path="/"
           element={token ? <Navigate to="/todo" /> : <Signin />}
         />
-        <Route path="/todo" element={<Main />} />
+        <Route path="/todo" element={token ? <Main /> : <Navigate to="/" />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </>

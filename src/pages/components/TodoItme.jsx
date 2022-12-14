@@ -1,21 +1,16 @@
-import React, { useContext, useEffect, useState, useRef } from "react"
+import React, { useState, useRef } from "react"
 import styled from "styled-components"
 
 export default function TodoItme({ el, deleteTodo, updateTodo, getList }) {
-  const [checkdeItem, setCheckedItem] = useState("")
   const [isEditMode, setIsEditMode] = useState(false)
-  const [checked, setChecked] = useState(false)
   const [chagedeInput, setChangedInput] = useState(el.todo)
-  const [content, setContet] = useState("")
   const [selectedId, setSelectedId] = useState(false)
 
-  console.log("chagedeInput", chagedeInput)
   const handleEditMode = (e) => {
-    console.log(e)
     const id = Number(e.target.id)
     const findeItem = getList.find((el) => el.id === id)
     const isCompleted = findeItem.isCompleted
-    console.log(findeItem)
+
     setSelectedId(id)
     if (isEditMode) {
       setIsEditMode(false)
@@ -43,10 +38,7 @@ export default function TodoItme({ el, deleteTodo, updateTodo, getList }) {
           id={el.id}
           type="checkbox"
           checked={el.isCompleted}
-          onChange={(e) => {
-            handleChangeCheckbox(e)
-            // setChecked(checked ? false : true)
-          }}
+          onChange={(e) => handleChangeCheckbox(e)}
         />
         <TextStyle>
           {isEditMode ? (
@@ -70,14 +62,6 @@ export default function TodoItme({ el, deleteTodo, updateTodo, getList }) {
           ) : (
             <Inprogress>Inprogress</Inprogress>
           )}
-          <Button
-            id={el.id}
-            onClick={(e) => {
-              deleteTodo(e)
-            }}
-          >
-            x
-          </Button>
           <span id={el.id} onClick={(e) => handleEditMode(e)}>
             {isEditMode ? (
               el.id === selectedId ? (
@@ -89,6 +73,14 @@ export default function TodoItme({ el, deleteTodo, updateTodo, getList }) {
               <Edit id={el.id}>Edit 📇</Edit>
             )}
           </span>
+          <Button
+            id={el.id}
+            onClick={(e) => {
+              deleteTodo(e)
+            }}
+          >
+            x
+          </Button>
         </TextStyle>
       </div>
     </Container>
@@ -137,9 +129,11 @@ const Edit = styled.span`
   font-size: 12px;
   cursor: pointer;
   color: gray;
+  margin-left: 10px;
 `
 const Completed = styled.span`
   font-size: 12px;
   cursor: pointer;
   color: navy;
+  margin-left: 10px;
 `

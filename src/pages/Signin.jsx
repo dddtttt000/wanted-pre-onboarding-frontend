@@ -5,16 +5,13 @@ import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
 export default function Signin() {
-  const { setUsername, setIsLoggedIn, setToken } = useContext(AppContext)
+  const { setIsLoggedIn, setToken } = useContext(AppContext)
   const emailInput = useRef(null)
   const pwInput = useRef(null)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errMsg, setErrMsg] = useState("")
   const navigate = useNavigate()
-
-  // email : de@ddd.com
-  // password : aaa1111111
 
   const checkEnter = (e) => {
     if (e.key === "Enter") {
@@ -30,7 +27,6 @@ export default function Signin() {
     e.preventDefault()
 
     if (email && password) {
-      // 여기에서 signin 요청 보내는 함수 실행
       try {
         const result = await axios.post(
           `https://pre-onboarding-selection-task.shop/auth/signup`,
@@ -42,7 +38,7 @@ export default function Signin() {
             "content-type": "application/json",
           }
         )
-        console.log("result ==>", result)
+
         if (result) {
           setToken(result.data.access_token)
           setIsLoggedIn(true)
@@ -56,7 +52,7 @@ export default function Signin() {
   return (
     <>
       <Container>
-        <div className="font-bold underline">SignIn</div>
+        <Title>SignIn</Title>
         <div>
           <form action="submit" onSubmit={(e) => handleSubmit(e)}>
             <Line>
@@ -80,10 +76,9 @@ export default function Signin() {
                 onKeyUp={checkEnter}
               />
             </Line>
-            <button onClick={() => console.log("click!")}>확인</button>
+            <Warning>{errMsg}</Warning>
+            <button onClick={(e) => handleSubmit(e)}>확인</button>
           </form>
-          {errMsg}
-
           <SignUp onClick={() => navigate("/signup")}>회원가입</SignUp>
         </div>
       </Container>
@@ -92,11 +87,14 @@ export default function Signin() {
 }
 
 const Container = styled.div`
-  /* padding: 10px; */
-  width: 400px;
+  width: 200px;
   margin: 10px auto;
 `
-
+const Title = styled.div`
+  font-size: 22px;
+  font-weight: bold;
+  margin: 10px auto;
+`
 const Label = styled.label`
   font-size: 14px;
   margin-right: 10px;
@@ -107,12 +105,17 @@ const Line = styled.div`
 `
 const Input = styled.input`
   font-size: 14px;
+  width: 100%;
 `
 
 const SignUp = styled.div`
   padding-top: 20px;
-  color: palevioletred;
-  font-weight: bold;
+  color: #091e6a;
+  font-size: 12px;
   margin: 0 auto;
   cursor: pointer;
+`
+const Warning = styled.p`
+  font-size: 12px;
+  color: #dd0c52;
 `
