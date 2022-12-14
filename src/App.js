@@ -7,8 +7,8 @@ import Signin from "./pages/Signin"
 import Signup from "./pages/Signup"
 
 function App() {
-  const { isLoggedIn, token } = useContext(AppContext)
-  console.log(token)
+  const { token } = useContext(AppContext)
+
   return (
     <>
       <div className="App">

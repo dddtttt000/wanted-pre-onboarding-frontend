@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from "react"
 import axios from "axios"
 import { AppContext } from "../data/AppContext"
 import { useNavigate } from "react-router-dom"
+import styled from "styled-components"
 
 export default function Signin() {
   const { setUsername, setIsLoggedIn, setToken } = useContext(AppContext)
@@ -54,35 +55,64 @@ export default function Signin() {
   }
   return (
     <>
-      <div className="font-bold underline">SignIn</div>
-      <div>
-        <form action="submit" onSubmit={(e) => handleSubmit(e)}>
-          <div className="">
-            <label htmlFor="">email</label>
-            <input
-              type="text"
-              placeholder="email"
-              ref={emailInput}
-              onChange={(e) => setEmail(e.currentTarget.value)}
-              onKeyUp={checkEnter}
-            />
-          </div>
-          <div className="">
-            <label htmlFor="">password</label>
-            <input
-              type="password"
-              placeholder="password"
-              ref={pwInput}
-              onChange={(e) => setPassword(e.currentTarget.value)}
-              onKeyUp={checkEnter}
-            />
-          </div>
-          <button onClick={() => console.log("click!")}>확인</button>
-        </form>
-        {errMsg}
+      <Container>
+        <div className="font-bold underline">SignIn</div>
+        <div>
+          <form action="submit" onSubmit={(e) => handleSubmit(e)}>
+            <Line>
+              <Label htmlFor="">email</Label>
+              <Input
+                type="text"
+                placeholder="email"
+                ref={emailInput}
+                onChange={(e) => setEmail(e.currentTarget.value)}
+                onKeyUp={checkEnter}
+              />
+            </Line>
 
-        <button onClick={() => navigate("/signup")}>회원가입</button>
-      </div>
+            <Line>
+              <Label htmlFor="">password</Label>
+              <Input
+                type="password"
+                placeholder="password"
+                ref={pwInput}
+                onChange={(e) => setPassword(e.currentTarget.value)}
+                onKeyUp={checkEnter}
+              />
+            </Line>
+            <button onClick={() => console.log("click!")}>확인</button>
+          </form>
+          {errMsg}
+
+          <SignUp onClick={() => navigate("/signup")}>회원가입</SignUp>
+        </div>
+      </Container>
     </>
   )
 }
+
+const Container = styled.div`
+  /* padding: 10px; */
+  width: 400px;
+  margin: 10px auto;
+`
+
+const Label = styled.label`
+  font-size: 14px;
+  margin-right: 10px;
+`
+
+const Line = styled.div`
+  margin-top: 10px;
+`
+const Input = styled.input`
+  font-size: 14px;
+`
+
+const SignUp = styled.div`
+  padding-top: 20px;
+  color: palevioletred;
+  font-weight: bold;
+  margin: 0 auto;
+  cursor: pointer;
+`

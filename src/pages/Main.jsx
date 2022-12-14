@@ -150,7 +150,6 @@ export default function Main() {
 }
 
 const Container = styled.div`
-  /* padding: 10px; */
   width: 400px;
   margin: 10px auto;
 `
