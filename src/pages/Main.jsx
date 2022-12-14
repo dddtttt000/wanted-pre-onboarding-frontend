@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from "react"
 import { AppContext } from "../data/AppContext"
 import axios from "axios"
 import TodoItme from "./components/TodoItme"
+import styled from "styled-components"
 
 export default function Main() {
   const { token } = useContext(AppContext)
@@ -115,29 +116,44 @@ export default function Main() {
 
   return (
     <>
-      <p>LIST</p>
-      {getList.map((el) => {
-        return (
-          <React.Fragment key={el.id}>
-            <TodoItme
-              el={el}
-              getList={getList}
-              deleteTodo={deleteTodo}
-              updateTodo={updateTodo}
-            />
-          </React.Fragment>
-        )
-      })}
       <div>
-        <form action="submit" onSubmit={(e) => createTodo(e)}>
-          <input
-            value={todoInput}
-            type="text"
-            onChange={(e) => createTodoInput(e)}
-          />
-          <button onClick={(e) => createTodo(e)}>ADD</button>
-        </form>
+        <Container>
+          <p>LIST</p>
+          {getList.map((el) => {
+            return (
+              <React.Fragment key={el.id}>
+                <TodoItme
+                  el={el}
+                  getList={getList}
+                  deleteTodo={deleteTodo}
+                  updateTodo={updateTodo}
+                />
+              </React.Fragment>
+            )
+          })}
+          <div>
+            <AddBox>
+              <form action="submit" onSubmit={(e) => createTodo(e)}>
+                <input
+                  value={todoInput}
+                  type="text"
+                  onChange={(e) => createTodoInput(e)}
+                />
+                <button onClick={(e) => createTodo(e)}>ADD</button>
+              </form>
+            </AddBox>
+          </div>
+        </Container>
       </div>
     </>
   )
 }
+
+const Container = styled.div`
+  /* padding: 10px; */
+  width: 400px;
+  margin: 10px auto;
+`
+const AddBox = styled.div`
+  margin: 20px;
+`
